@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/viewer.css" />
 </head>
@@ -22,15 +24,19 @@
   <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
     <div class="navbar__inner">
       <a href="../index.html" class="navbar__brand" aria-label="Ana sayfaya dön">
-        <span class="navbar__logo" aria-hidden="true">▶</span>
+        <span class="navbar__logo" aria-hidden="true">
+          <i data-lucide="play" style="width:14px;height:14px;"></i>
+        </span>
         <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
       </a>
       <ul class="navbar__links" role="list">
-        <li><a href="../index.html" class="navbar__link">← Yeni Analiz</a></li>
+        <li><a href="../index.html" class="navbar__link">
+          <i data-lucide="arrow-left" style="width:13px;height:13px;"></i> Yeni Analiz
+        </a></li>
         <li><a href="wiki.html" class="navbar__link">Wiki</a></li>
       </ul>
       <button class="btn btn--sm btn--primary" id="download-btn" aria-label="Storyboard'ı indir">
-        ⬇ İndir
+        <i data-lucide="download" style="width:14px;height:14px;"></i> İndir
       </button>
     </div>
   </nav>
@@ -51,7 +57,9 @@
         <div class="viewer-header">
           <h1 class="viewer-header__title" id="viewer-title">Storyboard</h1>
           <div class="viewer-header__actions">
-            <button class="btn btn--sm btn--ghost" id="zoom-btn" aria-label="Büyüt">🔍 Zoom</button>
+          <button class="btn btn--sm btn--ghost" id="zoom-btn" aria-label="Büyüt">
+          <i data-lucide="zoom-in" style="width:14px;height:14px;"></i> Zoom
+        </button>
           </div>
         </div>
 
@@ -92,11 +100,11 @@
         <!-- Sayfa Navigasyon / Page navigation -->
         <div class="page-nav" id="page-nav" aria-label="Storyboard sayfa navigasyonu">
           <button class="page-nav__btn" id="prev-page" aria-label="Önceki sayfa" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
           </button>
           <span class="page-nav__info" id="page-info" aria-live="polite">1 / 2</span>
           <button class="page-nav__btn" id="next-page" aria-label="Sonraki sayfa">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+            <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
           </button>
         </div>
       </main>
@@ -191,10 +199,15 @@
 
   <!-- Lightbox / Zoom overlay -->
   <div class="lightbox-overlay" id="lightbox" role="dialog" aria-label="Büyük resim görünümü" aria-modal="true">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Kapat">✕</button>
+    <button class="lightbox-close" id="lightbox-close" aria-label="Kapat">
+    <i data-lucide="x" style="width:18px;height:18px;"></i>
+  </button>
     <img class="lightbox-img" id="lightbox-img" src="" alt="Storyboard büyük görünüm" />
   </div>
 
   <script src="../assets/js/viewer.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+  </script>
 </body>
 </html>

@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/process.css" />
 </head>
@@ -24,10 +26,14 @@
   <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
     <div class="navbar__inner">
       <a href="../index.html" class="navbar__brand" aria-label="Ana sayfaya dön">
-        <span class="navbar__logo" aria-hidden="true">▶</span>
+        <span class="navbar__logo" aria-hidden="true">
+          <i data-lucide="play" style="width:14px;height:14px;"></i>
+        </span>
         <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
       </a>
-      <a href="../index.html" class="btn btn--sm btn--ghost" id="cancel-btn">✕ İptal Et</a>
+      <a href="../index.html" class="btn btn--sm btn--ghost" id="cancel-btn">
+        <i data-lucide="x" style="width:13px;height:13px;"></i> İptal Et
+      </a>
     </div>
   </nav>
 
@@ -65,7 +71,9 @@
 
         <!-- Adım 1: İndir / Step 1: Download -->
         <div class="step-item" id="step-1" role="listitem">
-          <div class="step-item__icon" id="step-1-icon" aria-hidden="true">⬇️</div>
+          <div class="step-item__icon" id="step-1-icon" aria-hidden="true">
+          <i data-lucide="download" style="width:16px;height:16px;"></i>
+        </div>
           <div class="step-item__body">
             <div class="step-item__title">
               <span>Transcript + Video İndir</span>
@@ -78,7 +86,9 @@
 
         <!-- Adım 2: NLP / Step 2: NLP -->
         <div class="step-item" id="step-2" role="listitem">
-          <div class="step-item__icon" id="step-2-icon" aria-hidden="true">🧠</div>
+          <div class="step-item__icon" id="step-2-icon" aria-hidden="true">
+          <i data-lucide="brain" style="width:16px;height:16px;"></i>
+        </div>
           <div class="step-item__body">
             <div class="step-item__title">
               <span>NLP Analizi</span>
@@ -91,7 +101,9 @@
 
         <!-- Adım 3: Frame Çıkarma / Step 3: Frame extraction -->
         <div class="step-item" id="step-3" role="listitem">
-          <div class="step-item__icon" id="step-3-icon" aria-hidden="true">📸</div>
+          <div class="step-item__icon" id="step-3-icon" aria-hidden="true">
+          <i data-lucide="camera" style="width:16px;height:16px;"></i>
+        </div>
           <div class="step-item__body">
             <div class="step-item__title">
               <span>Frame Çıkarma</span>
@@ -104,7 +116,9 @@
 
         <!-- Adım 4: Storyboard / Step 4: Compile -->
         <div class="step-item" id="step-4" role="listitem">
-          <div class="step-item__icon" id="step-4-icon" aria-hidden="true">🗂️</div>
+          <div class="step-item__icon" id="step-4-icon" aria-hidden="true">
+          <i data-lucide="layout-grid" style="width:16px;height:16px;"></i>
+        </div>
           <div class="step-item__body">
             <div class="step-item__title">
               <span>Storyboard + Wiki Oluştur</span>
@@ -170,5 +184,8 @@
   </style>
 
   <script src="../assets/js/progress.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+  </script>
 </body>
 </html>

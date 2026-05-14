@@ -8,13 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons CDN — bilindik, yaygın ikonlar / Well-known icon library -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link rel="stylesheet" href="assets/css/components.css" />
 </head>
 <body>
 
-  <!-- ======= ARKA PLAN ANİMASYONLU PARÇACIKLAR ======= -->
-  <!-- Animated background particles -->
+  <!-- Arka plan / Background canvas -->
   <div class="bg-canvas" aria-hidden="true">
     <div class="orb orb--1"></div>
     <div class="orb orb--2"></div>
@@ -23,11 +24,12 @@
   </div>
 
   <!-- ======= NAVİGASYON ======= -->
-  <!-- Top navigation bar -->
   <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
     <div class="navbar__inner">
       <a href="index.html" class="navbar__brand" aria-label="Ana sayfaya git">
-        <span class="navbar__logo" aria-hidden="true">▶</span>
+        <span class="navbar__logo" aria-hidden="true">
+          <i data-lucide="play" style="width:14px;height:14px;"></i>
+        </span>
         <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
       </a>
       <ul class="navbar__links" role="list">
@@ -40,13 +42,12 @@
   </nav>
 
   <!-- ======= HERO BÖLÜMÜ ======= -->
-  <!-- Hero section with main headline and URL input -->
   <main>
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero__content">
 
         <!-- Rozet / Badge -->
-        <div class="badge badge--glow" aria-label="Yeni özellik">
+        <div class="badge badge--glow" aria-label="AI destekli">
           <span class="badge__dot" aria-hidden="true"></span>
           <span>NLP + Vision LLM Destekli</span>
         </div>
@@ -63,14 +64,10 @@
         </p>
 
         <!-- ======= URL GİRİŞ FORMU ======= -->
-        <!-- Main YouTube URL analysis form -->
         <form class="analyze-form glass-card" id="analyze-form" aria-label="Video analiz formu" novalidate>
           <div class="analyze-form__input-wrap">
             <span class="analyze-form__icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-                <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
-              </svg>
+              <i data-lucide="youtube" style="width:18px;height:18px;color:#ef4444;"></i>
             </span>
             <input
               type="url"
@@ -84,12 +81,12 @@
               aria-required="true"
             />
             <button type="button" id="paste-btn" class="analyze-form__paste-btn" aria-label="Panodan yapıştır">
+              <i data-lucide="clipboard" style="width:12px;height:12px;"></i>
               Yapıştır
             </button>
           </div>
 
           <!-- Gelişmiş Ayarlar Accordion -->
-          <!-- Advanced settings accordion -->
           <div class="settings-accordion" id="settings-accordion">
             <button
               type="button"
@@ -98,14 +95,9 @@
               aria-expanded="false"
               aria-controls="settings-panel"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <circle cx="12" cy="12" r="3"/>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
-              </svg>
+              <i data-lucide="sliders-horizontal" style="width:13px;height:13px;"></i>
               Gelişmiş Ayarlar
-              <svg class="settings-accordion__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
+              <i data-lucide="chevron-down" class="settings-accordion__arrow" style="width:13px;height:13px;"></i>
             </button>
 
             <div class="settings-accordion__panel" id="settings-panel" role="region" aria-labelledby="settings-toggle" hidden>
@@ -172,11 +164,8 @@
           </div>
 
           <!-- Gönder Butonu -->
-          <!-- Submit / analyze button -->
           <button type="submit" id="analyze-btn" class="btn btn--lg btn--primary btn--full analyze-form__submit">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
+            <i data-lucide="sparkles" style="width:18px;height:18px;"></i>
             Videoyu Analiz Et
           </button>
 
@@ -184,20 +173,18 @@
         </form>
 
         <!-- Desteklenen Format Etiketleri -->
-        <!-- Supported URL format chips -->
         <div class="format-chips" aria-label="Desteklenen formatlar">
           <span class="format-chip">youtube.com/watch?v=...</span>
           <span class="format-chip">youtu.be/...</span>
           <span class="format-chip">youtube.com/shorts/...</span>
-          <span class="format-chip">Playlist yakında →</span>
+          <span class="format-chip" style="color:var(--clr-primary);">Playlist yakında →</span>
         </div>
 
       </div>
 
-      <!-- Sağ taraf: Demo storyboard önizleme -->
-      <!-- Right side: decorative storyboard preview -->
+      <!-- Hero Görseli -->
       <div class="hero__visual" aria-hidden="true">
-        <div class="demo-storyboard glass-card">
+        <div class="demo-storyboard">
           <div class="demo-storyboard__header">
             <div class="demo-storyboard__dots">
               <span></span><span></span><span></span>
@@ -217,22 +204,19 @@
           </div>
         </div>
 
-        <!-- Yanındaki küçük stats kartları -->
-        <!-- Floating stats cards -->
-        <div class="stat-card stat-card--frames glass-card">
+        <div class="stat-card stat-card--frames">
           <span class="stat-card__value">4</span>
           <span class="stat-card__label">Akıllı Frame</span>
           <span class="stat-card__sub">vs ~64 sabit</span>
         </div>
-        <div class="stat-card stat-card--wiki glass-card">
+        <div class="stat-card stat-card--wiki">
           <span class="stat-card__icon">📖</span>
-          <span class="stat-card__label">Wiki Sayfası Oluşturuldu</span>
+          <span class="stat-card__label">Wiki Oluşturuldu</span>
         </div>
       </div>
     </section>
 
     <!-- ======= NASIL ÇALIŞIR ======= -->
-    <!-- How it works section -->
     <section class="how-it-works" id="how-it-works" aria-labelledby="how-heading">
       <div class="section-inner">
         <div class="section-header">
@@ -243,32 +227,37 @@
         <div class="pipeline-steps" role="list">
 
           <div class="pipeline-step" role="listitem">
-            <div class="pipeline-step__number" aria-hidden="true">01</div>
-            <div class="pipeline-step__icon" aria-hidden="true">⬇️</div>
+            <div class="pipeline-step__number">01</div>
+            <div class="pipeline-step__icon-wrap">
+              <i data-lucide="download" style="width:18px;height:18px;"></i>
+            </div>
             <h3 class="pipeline-step__title">İndir</h3>
             <p class="pipeline-step__desc">yt-dlp ile transcript (VTT/SRT) ve video indirilir. Altyazı yoksa Groq Whisper devreye girer.</p>
-            <div class="pipeline-step__connector" aria-hidden="true"></div>
           </div>
 
           <div class="pipeline-step" role="listitem">
-            <div class="pipeline-step__number" aria-hidden="true">02</div>
-            <div class="pipeline-step__icon" aria-hidden="true">🧠</div>
+            <div class="pipeline-step__number">02</div>
+            <div class="pipeline-step__icon-wrap">
+              <i data-lucide="brain" style="width:18px;height:18px;"></i>
+            </div>
             <h3 class="pipeline-step__title">NLP Analizi</h3>
             <p class="pipeline-step__desc">spaCy + TF-IDF self-learning ile "nereye bak" anları tespit edilir. Sessizlik boşlukları da kontrol edilir.</p>
-            <div class="pipeline-step__connector" aria-hidden="true"></div>
           </div>
 
           <div class="pipeline-step" role="listitem">
-            <div class="pipeline-step__number" aria-hidden="true">03</div>
-            <div class="pipeline-step__icon" aria-hidden="true">📸</div>
+            <div class="pipeline-step__number">03</div>
+            <div class="pipeline-step__icon-wrap">
+              <i data-lucide="camera" style="width:18px;height:18px;"></i>
+            </div>
             <h3 class="pipeline-step__title">Frame Çıkar</h3>
             <p class="pipeline-step__desc">ffmpeg ile yalnızca seçilen anların kareleri alınır. Sabit aralıklı değil, semantik olarak değerli anlar.</p>
-            <div class="pipeline-step__connector" aria-hidden="true"></div>
           </div>
 
           <div class="pipeline-step" role="listitem">
-            <div class="pipeline-step__number" aria-hidden="true">04</div>
-            <div class="pipeline-step__icon" aria-hidden="true">🗂️</div>
+            <div class="pipeline-step__number">04</div>
+            <div class="pipeline-step__icon-wrap">
+              <i data-lucide="layout-grid" style="width:18px;height:18px;"></i>
+            </div>
             <h3 class="pipeline-step__title">Storyboard + Wiki</h3>
             <p class="pipeline-step__desc">Pillow ile grid oluşturulur, Claude Vision analiz eder ve Obsidian formatında wiki sayfaları üretilir.</p>
           </div>
@@ -278,7 +267,6 @@
     </section>
 
     <!-- ======= İSTATİSTİKLER ======= -->
-    <!-- Stats section -->
     <section class="stats-section" aria-label="Platform istatistikleri">
       <div class="section-inner">
         <div class="stats-grid">
@@ -308,8 +296,7 @@
 
   </main>
 
-  <!-- ======= ALT BİLGİ ======= -->
-  <!-- Footer -->
+  <!-- ======= FOOTER ======= -->
   <footer class="footer" role="contentinfo">
     <div class="footer__inner">
       <span class="footer__brand">watch-youtube</span>
@@ -322,9 +309,12 @@
     </div>
   </footer>
 
-  <!-- ======= SCRIPTS ======= -->
   <script src="assets/js/upload.js" defer></script>
   <script src="assets/js/api.js" defer></script>
+  <!-- Lucide ikonları oluştur / Render Lucide icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+  </script>
 
 </body>
 </html>
