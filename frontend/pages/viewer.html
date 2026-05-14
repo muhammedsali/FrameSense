@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storyboard Görüntüleyici — watch-youtube</title>
+  <meta name="description" content="YouTube video storyboard ve wiki sayfalarını görüntüle." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/viewer.css" />
+</head>
+<body>
+
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="orb orb--1"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <!-- Navigasyon / Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__brand" aria-label="Ana sayfaya dön">
+        <span class="navbar__logo" aria-hidden="true">▶</span>
+        <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
+      </a>
+      <ul class="navbar__links" role="list">
+        <li><a href="../index.html" class="navbar__link">← Yeni Analiz</a></li>
+        <li><a href="wiki.html" class="navbar__link">Wiki</a></li>
+      </ul>
+      <button class="btn btn--sm btn--primary" id="download-btn" aria-label="Storyboard'ı indir">
+        ⬇ İndir
+      </button>
+    </div>
+  </nav>
+
+  <div class="viewer-page">
+    <div class="viewer-layout">
+
+      <!-- Sol Sidebar: Dosya Listesi / Left sidebar: file list -->
+      <aside class="sidebar" aria-label="Storyboard dosyaları">
+        <div class="sidebar__title">Storyboard Sayfaları</div>
+        <ul class="sidebar__list" id="sidebar-list" role="list">
+          <!-- JavaScript ile doldurulur / Filled by JavaScript -->
+        </ul>
+      </aside>
+
+      <!-- Merkez: Görüntüleyici / Center: image viewer -->
+      <main class="viewer-main" id="viewer-main">
+        <div class="viewer-header">
+          <h1 class="viewer-header__title" id="viewer-title">Storyboard</h1>
+          <div class="viewer-header__actions">
+            <button class="btn btn--sm btn--ghost" id="zoom-btn" aria-label="Büyüt">🔍 Zoom</button>
+          </div>
+        </div>
+
+        <!-- Storyboard resmi / Storyboard image -->
+        <div class="storyboard-img-wrap" id="storyboard-img-wrap" role="button" tabindex="0" aria-label="Storyboard resmi, tıklayınca büyür">
+          <!-- Demo renk bloğu (gerçek resim backend'den gelir) / Demo color block -->
+          <div id="storyboard-demo" style="
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 25%, #1e3a5f 50%, #14532d 75%, #3b1a1a 100%);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: var(--r-xl);
+            position: relative; overflow: hidden;
+          ">
+            <div style="
+              display: grid; grid-template-columns: 1fr 1fr;
+              gap: 4px; padding: 8px; width: 100%; height: 100%;
+            ">
+              <div style="background:rgba(255,255,255,0.06); border-radius:8px; display:flex;align-items:flex-end;padding:8px;">
+                <span style="font-size:10px;font-family:monospace;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px;">0:32 — keyword:diagram</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.06); border-radius:8px; display:flex;align-items:flex-end;padding:8px;">
+                <span style="font-size:10px;font-family:monospace;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px;">1:14 — keyword:code</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.06); border-radius:8px; display:flex;align-items:flex-end;padding:8px;">
+                <span style="font-size:10px;font-family:monospace;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px;">2:05 — silence:8.2s</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.06); border-radius:8px; display:flex;align-items:flex-end;padding:8px;">
+                <span style="font-size:10px;font-family:monospace;background:rgba(0,0,0,0.5);color:#fff;padding:2px 6px;border-radius:4px;">3:41 — spacy:deictic</span>
+              </div>
+            </div>
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;color:rgba(255,255,255,0.3);">
+              <div style="font-size:2rem;">🎬</div>
+              <div style="font-size:0.75rem;margin-top:4px;">Backend bağlandığında gerçek storyboard burada görünür</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sayfa Navigasyon / Page navigation -->
+        <div class="page-nav" id="page-nav" aria-label="Storyboard sayfa navigasyonu">
+          <button class="page-nav__btn" id="prev-page" aria-label="Önceki sayfa" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="page-nav__info" id="page-info" aria-live="polite">1 / 2</span>
+          <button class="page-nav__btn" id="next-page" aria-label="Sonraki sayfa">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </main>
+
+      <!-- Sağ Panel: Metadata / Right panel: metadata -->
+      <aside class="meta-panel" aria-label="Analiz detayları">
+
+        <!-- Özet / Summary -->
+        <div class="meta-panel__section">
+          <div class="meta-panel__label">Analiz Özeti</div>
+          <div class="glass-card" style="padding:var(--sp-4)">
+            <div style="display:flex;flex-direction:column;gap:var(--sp-2)">
+              <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs)">
+                <span style="color:var(--clr-text-2)">Akıllı Frame</span>
+                <span style="font-weight:700;color:var(--clr-green)">18</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs)">
+                <span style="color:var(--clr-text-2)">Sabit Aralık (~30s)</span>
+                <span style="font-weight:700;color:var(--clr-text-3)">~72</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs)">
+                <span style="color:var(--clr-text-2)">Tasarruf</span>
+                <span style="font-weight:700;color:var(--clr-primary)">%75</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:var(--fs-xs)">
+                <span style="color:var(--clr-text-2)">Storyboard Sayısı</span>
+                <span style="font-weight:700">2</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timestamp Listesi / Timestamps -->
+        <div class="meta-panel__section">
+          <div class="meta-panel__label">Seçilen Timestamp'ler</div>
+          <div class="timestamps-list" id="timestamps-list">
+            <!-- Demo verisi / Demo data -->
+            <div class="timestamp-item">
+              <span class="timestamp-item__time">0:32</span>
+              <span class="timestamp-item__reason">keyword:diagram</span>
+              <span class="timestamp-item__tag tag--kw">KW</span>
+            </div>
+            <div class="timestamp-item">
+              <span class="timestamp-item__time">1:14</span>
+              <span class="timestamp-item__reason">keyword:code</span>
+              <span class="timestamp-item__tag tag--kw">KW</span>
+            </div>
+            <div class="timestamp-item">
+              <span class="timestamp-item__time">2:05</span>
+              <span class="timestamp-item__reason">silence:8.2s</span>
+              <span class="timestamp-item__tag tag--sil">SIL</span>
+            </div>
+            <div class="timestamp-item">
+              <span class="timestamp-item__time">3:41</span>
+              <span class="timestamp-item__reason">spacy:deictic_verb</span>
+              <span class="timestamp-item__tag tag--kw">KW</span>
+            </div>
+            <div class="timestamp-item">
+              <span class="timestamp-item__time">5:18</span>
+              <span class="timestamp-item__reason">keyword:look at</span>
+              <span class="timestamp-item__tag tag--kw">KW</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyword'ler / Keywords -->
+        <div class="meta-panel__section">
+          <div class="meta-panel__label">Öğrenilen Yeni Keyword'ler</div>
+          <div class="keywords-cloud">
+            <span class="keyword-chip">kernel mode</span>
+            <span class="keyword-chip">page table</span>
+            <span class="keyword-chip">scheduler</span>
+          </div>
+        </div>
+
+        <!-- Wiki Bağlantısı / Wiki link -->
+        <div class="meta-panel__section">
+          <div class="meta-panel__label">Wiki Sayfaları</div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-2)">
+            <button class="wiki-link-btn" onclick="window.location.href='wiki.html'">
+              📖 KernelMode.md
+            </button>
+            <button class="wiki-link-btn" onclick="window.location.href='wiki.html'">
+              📖 PageTable.md
+            </button>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <!-- Lightbox / Zoom overlay -->
+  <div class="lightbox-overlay" id="lightbox" role="dialog" aria-label="Büyük resim görünümü" aria-modal="true">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Kapat">✕</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="Storyboard büyük görünüm" />
+  </div>
+
+  <script src="../assets/js/viewer.js" defer></script>
+</body>
+</html>
