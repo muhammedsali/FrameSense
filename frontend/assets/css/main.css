@@ -5,38 +5,38 @@
 
 /* ---------- Tasarım Değişkenleri / Design Tokens ---------- */
 :root {
-  /* Renkler — Light AI Mode / Colors — Light AI Mode */
+  /* Renkler — Teal/Cyan-Green AI Mode / Colors */
   --clr-bg:         #ffffff;
-  --clr-bg-2:       #f7f7f8;
-  --clr-bg-3:       #f0f0f2;
+  --clr-bg-2:       #f5f9f9;
+  --clr-bg-3:       #e9f4f3;
   --clr-surface:    #ffffff;
-  --clr-surface-2:  #f7f7f8;
-  --clr-border:     #e5e5e7;
-  --clr-border-2:   #d1d1d6;
+  --clr-surface-2:  #f5f9f9;
+  --clr-border:     #d9ecea;
+  --clr-border-2:   #b0d8d4;
 
-  --clr-primary:    #7c3aed;
-  --clr-primary-2:  #6d28d9;
-  --clr-primary-lt: #ede9fe;
+  --clr-primary:    #0d9488;
+  --clr-primary-2:  #0f766e;
+  --clr-primary-lt: #ccfbf1;
   --clr-accent:     #ef4444;
   --clr-accent-2:   #dc2626;
   --clr-green:      #059669;
   --clr-green-lt:   #d1fae5;
   --clr-yellow:     #d97706;
   --clr-yellow-lt:  #fef3c7;
-  --clr-blue:       #2563eb;
-  --clr-blue-lt:    #dbeafe;
+  --clr-blue:       #0891b2;
+  --clr-blue-lt:    #cffafe;
 
-  --clr-text:       #111111;
-  --clr-text-2:     #6b6b6b;
-  --clr-text-3:     #aaaaaa;
+  --clr-text:       #0a1a18;
+  --clr-text-2:     #5f7473;
+  --clr-text-3:     #9db4b2;
 
   /* Gradyanlar / Gradients */
-  --grad-primary:   linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-  --grad-hero-bg:   radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124,58,237,0.07) 0%, transparent 70%);
+  --grad-primary:   linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+  --grad-hero-bg:   radial-gradient(ellipse 80% 60% at 50% -10%, rgba(13,148,136,0.07) 0%, transparent 70%);
   --grad-card:      #ffffff;
 
-  /* Tipografi / Typography */
-  --font-sans:  'Inter', system-ui, sans-serif;
+  /* Tipografi / Typography — Plus Jakarta Sans */
+  --font-sans:  'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   --font-mono:  'JetBrains Mono', monospace;
 
   --fs-xs:   0.75rem;
@@ -61,11 +61,11 @@
   --r-lg:  16px;  --r-xl:  20px;  --r-full: 9999px;
 
   /* Gölgeler — hafif ve temiz / Shadows — light and clean */
-  --shadow-xs:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-sm:  0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md:  0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
-  --shadow-lg:  0 20px 40px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.05);
-  --shadow-glow: 0 0 0 3px rgba(124,58,237,0.12);
+  --shadow-xs:  0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-sm:  0 4px 6px rgba(13,148,136,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md:  0 10px 25px rgba(13,148,136,0.1), 0 4px 10px rgba(0,0,0,0.04);
+  --shadow-lg:  0 20px 40px rgba(13,148,136,0.12), 0 8px 16px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 0 3px rgba(13,148,136,0.15);
 
   /* Animasyon / Animation */
   --ease-out:    cubic-bezier(0.16,1,0.3,1);
@@ -107,28 +107,28 @@ input, textarea, select { font-family: inherit; }
   background: var(--grad-hero-bg);
 }
 
-/* Yüzen orb'lar artık çok soluk / Orbs are now very subtle */
+/* Yüzen orb'lar — teal tonları / Orbs — teal tones */
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.06;
+  filter: blur(110px);
+  opacity: 0.07;
   animation: orbFloat 25s ease-in-out infinite;
 }
 .orb--1 {
   width: 700px; height: 700px;
-  background: #7c3aed;
+  background: #0d9488;
   top: -300px; left: -100px;
 }
 .orb--2 {
   width: 500px; height: 500px;
-  background: #a855f7;
+  background: #0891b2;
   top: 50%; right: -200px;
   animation-delay: -10s;
 }
 .orb--3 {
   width: 400px; height: 400px;
-  background: #2563eb;
+  background: #059669;
   bottom: -150px; left: 25%;
   animation-delay: -18s;
 }
@@ -173,14 +173,14 @@ input, textarea, select { font-family: inherit; }
 .btn--full { width: 100%; }
 
 .btn--primary {
-  background: var(--clr-primary);
+  background: var(--grad-primary);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(124,58,237,0.25);
+  box-shadow: 0 2px 10px rgba(13,148,136,0.25);
 }
 .btn--primary:hover {
-  background: var(--clr-primary-2);
+  opacity: 0.92;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(124,58,237,0.3);
+  box-shadow: 0 6px 20px rgba(13,148,136,0.35);
 }
 .btn--primary:active { transform: translateY(0); }
 
@@ -217,7 +217,7 @@ input, textarea, select { font-family: inherit; }
 .navbar__logo {
   display: grid; place-items: center;
   width: 30px; height: 30px; border-radius: var(--r-md);
-  background: var(--clr-primary);
+  background: var(--grad-primary);
   color: #fff;
 }
 .navbar__accent { color: var(--clr-primary); }
