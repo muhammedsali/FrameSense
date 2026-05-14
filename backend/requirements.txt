@@ -1,0 +1,10 @@
+# Backend bağımlılıkları / Backend dependencies
+# Kurulum: pip install -r backend/requirements.txt
+
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.7.0
+pydantic-settings>=2.3.0
+python-multipart>=0.0.9    # Form verisi için / for form data
+websockets>=12.0            # WebSocket desteği / WebSocket support
+httpx>=0.27.0               # Test istemcisi / test client
