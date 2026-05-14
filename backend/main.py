@@ -11,7 +11,9 @@ import logging
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
 
 from .api.routes import analyze, status, wiki, storyboards
 from .core.config import get_settings
@@ -63,19 +65,19 @@ app.include_router(wiki.router)
 app.include_router(storyboards.router)
 
 # ---------------------------------------------------------------------------
-# Kök Endpoint / Root Endpoint
+# Kök Endpoint / Root Endpoint — Frontend'i Sun / Serve Frontend
 # ---------------------------------------------------------------------------
 
-@app.get("/", tags=["health"], summary="API durum kontrolü")
-async def root() -> dict:
-    """API'nin çalıştığını doğrular / Verifies the API is running."""
-    return {
-        "name":    settings.app_name,
-        "version": settings.app_version,
-        "status":  "ok",
-        "docs":    "/docs",
-    }
+frontend_path = Path(__file__).parent.parent / "frontend"
 
+@app.get("/", tags=["health"], summary="Frontend'i aç")
+async def root() -> FileResponse:
+    """Ana sayfayı döndürür / Returns index.html."""
+    return FileResponse(frontend_path / "index.html")
+
+# Frontend klasörünü statik olarak sun / Mount static files
+app.mount("/assets", StaticFiles(directory=frontend_path / "assets"), name="assets")
+app.mount("/pages", StaticFiles(directory=frontend_path / "pages"), name="pages")
 
 @app.get("/health", tags=["health"], summary="Sağlık kontrolü")
 async def health() -> dict:

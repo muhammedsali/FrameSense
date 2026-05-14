@@ -4,7 +4,26 @@
  * Main page interactions, URL form, settings accordion, counter animation
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+import { checkBackendHealth } from './api.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // ---- Backend Sağlık Kontrolü / Backend Health Check ----
+  const checkStatus = async () => {
+    const isHealthy = await checkBackendHealth();
+    const btn = document.getElementById('analyze-btn');
+    if (btn) {
+      if (!isHealthy) {
+        // Backend kapalıysa görsel uyarı / Visual warning if backend is offline
+        showUrlFeedback('Backend şu an ulaşılamaz durumda. Lütfen sunucuyu başlatın.', 'warn');
+      } else {
+        showUrlFeedback('', '');
+      }
+    }
+  };
+  
+  // İlk yüklemede kontrol et / Check on initial load
+  checkStatus();
 
   // ---- Pano Yapıştır Butonu / Paste from clipboard ----
   const pasteBtn = document.getElementById('paste-btn');
@@ -55,14 +74,23 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- Form Gönderme / Form Submit ----
   const form = document.getElementById('analyze-form');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      
       const url = urlInput?.value.trim() ?? '';
       if (!isValidYouTubeUrl(url)) {
         showUrlFeedback('Geçerli bir YouTube URL\'si giriniz.', 'error');
         urlInput?.focus();
         return;
       }
+
+      // Göndermeden önce backend'i son bir kez kontrol et / Final check before sending
+      const isHealthy = await checkBackendHealth();
+      if (!isHealthy) {
+        showUrlFeedback('Backend sunucusu kapalı! Lütfen başlatın.', 'error');
+        return;
+      }
+
       showUrlFeedback('', '');
 
       // Formdaki parametreleri topla / Collect form params

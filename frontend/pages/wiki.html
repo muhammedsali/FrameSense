@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wiki — watch-youtube</title>
+  <meta name="description" content="Analiz edilen videolardan üretilen bilgi kütüphanesi." />
+  <!-- Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Markdown Parser (marked.js) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <style>
+    /* Wiki Özel Stilleri / Wiki Specific Styles */
+    .wiki-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: calc(100vh - var(--nav-h));
+      padding-top: var(--nav-h);
+    }
+
+    /* Sol Sidebar: Dosya Listesi / Left sidebar: file list */
+    .wiki-sidebar {
+      border-right: 1px solid var(--clr-border);
+      padding: var(--sp-6);
+      background: var(--clr-surface);
+      overflow-y: auto;
+      position: sticky; top: var(--nav-h); height: calc(100vh - var(--nav-h));
+    }
+    .wiki-search {
+      margin-bottom: var(--sp-6);
+    }
+    .wiki-search__input-wrap {
+      display: flex; align-items: center; gap: var(--sp-2);
+      background: var(--clr-bg-2);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-md);
+      padding: 8px 12px;
+    }
+    .wiki-search__input {
+      background: none; border: none; outline: none;
+      font-size: var(--fs-xs); color: var(--clr-text); width: 100%;
+    }
+
+    .wiki-list {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .wiki-list__item {
+      padding: 8px 12px;
+      border-radius: var(--r-md);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--clr-text-2);
+      cursor: pointer;
+      transition: all var(--duration-fast);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .wiki-list__item:hover {
+      background: var(--clr-bg-2);
+      color: var(--clr-text);
+    }
+    .wiki-list__item--active {
+      background: var(--clr-primary-lt);
+      color: var(--clr-primary);
+      font-weight: 700;
+    }
+
+    /* Merkez: Markdown İçeriği / Center: Markdown content */
+    .wiki-content {
+      padding: var(--sp-12) var(--sp-16);
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .wiki-article {
+      line-height: 1.8;
+      color: var(--clr-text);
+    }
+    .wiki-article h1 { font-size: var(--fs-4xl); margin-bottom: var(--sp-8); border-bottom: 2px solid var(--clr-border); padding-bottom: var(--sp-4); }
+    .wiki-article h2 { font-size: var(--fs-2xl); margin-top: var(--sp-10); margin-bottom: var(--sp-4); }
+    .wiki-article p { margin-bottom: var(--sp-6); }
+    .wiki-article ul, .wiki-article ol { margin-bottom: var(--sp-6); padding-left: var(--sp-6); }
+    .wiki-article li { margin-bottom: var(--sp-2); }
+    .wiki-article blockquote {
+      border-left: 4px solid var(--clr-primary);
+      background: var(--clr-bg-2);
+      padding: var(--sp-4) var(--sp-6);
+      margin-bottom: var(--sp-6);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      font-style: italic;
+    }
+    .wiki-article code {
+      font-family: var(--font-mono);
+      background: var(--clr-bg-3);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    .wiki-article pre {
+      background: #1e1e2e;
+      color: #d1d5db;
+      padding: var(--sp-6);
+      border-radius: var(--r-lg);
+      overflow-x: auto;
+      margin-bottom: var(--sp-8);
+    }
+    .wiki-article pre code { background: none; padding: 0; color: inherit; }
+
+    /* Boş Durum / Empty State */
+    .wiki-empty {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 60vh; text-align: center; color: var(--clr-text-3);
+    }
+
+    @media (max-width: 800px) {
+      .wiki-layout { grid-template-columns: 1fr; }
+      .wiki-sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--clr-border); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__brand">
+        <span class="navbar__logo"><i data-lucide="play" style="width:14px;height:14px;"></i></span>
+        <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="../index.html" class="navbar__link">← Yeni Analiz</a></li>
+        <li><a href="wiki.html" class="navbar__link navbar__link--active">Wiki</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wiki-layout">
+    <!-- Sidebar: Sayfa Listesi -->
+    <aside class="wiki-sidebar">
+      <div class="wiki-search">
+        <div class="wiki-search__input-wrap">
+          <i data-lucide="search" style="width:14px;height:14px;color:var(--clr-text-3)"></i>
+          <input type="text" id="wiki-search" class="wiki-search__input" placeholder="Sayfalarda ara..." />
+        </div>
+      </div>
+      <div class="wiki-list" id="wiki-list">
+        <!-- JS ile doldurulur -->
+      </div>
+    </aside>
+
+    <!-- İçerik Alanı -->
+    <section class="wiki-main">
+      <div class="wiki-content" id="wiki-content">
+        <div class="wiki-empty">
+          <i data-lucide="book-open" style="width:48px;height:48px;margin-bottom:var(--sp-4)"></i>
+          <p>Yandaki menüden bir konu seçerek detayları görüntüleyebilirsiniz.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { getWikiPages, getWikiContent } from '../assets/js/api.js';
+
+    const listEl    = document.getElementById('wiki-list');
+    const contentEl = document.getElementById('wiki-content');
+    const searchEl  = document.getElementById('wiki-search');
+
+    async function initWiki() {
+      await loadPages();
+      
+      // Arama dinleyicisi / Search listener
+      let searchTimeout;
+      searchEl?.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => loadPages(e.target.value), 300);
+      });
+    }
+
+    async function loadPages(query = '') {
+      try {
+        const { pages } = await getWikiPages(query);
+        renderList(pages);
+      } catch (err) {
+        console.error('Wiki listesi yüklenemedi:', err);
+      }
+    }
+
+    function renderList(pages) {
+      if (!listEl) return;
+      listEl.innerHTML = pages.length ? '' : '<p style="padding:12px;color:var(--clr-text-3);font-size:var(--fs-xs)">Sonuç bulunamadı.</p>';
+
+      pages.forEach(page => {
+        const item = document.createElement('div');
+        item.className = 'wiki-list__item';
+        item.textContent = page.title;
+        item.onclick = () => loadPageContent(page.filename, item);
+        listEl.appendChild(item);
+      });
+    }
+
+    async function loadPageContent(filename, element) {
+      // Aktif sınıfını güncelle / Update active class
+      document.querySelectorAll('.wiki-list__item').forEach(el => el.classList.remove('wiki-list__item--active'));
+      element.classList.add('wiki-list__item--active');
+
+      contentEl.innerHTML = '<div class="wiki-empty"><div class="spinner"></div></div>';
+
+      try {
+        const markdown = await getWikiContent(filename);
+        contentEl.innerHTML = `<article class="wiki-article">${marked.parse(markdown)}</article>`;
+        // Sayfa başına kaydır / Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        contentEl.innerHTML = `<div class="wiki-empty"><p style="color:var(--clr-accent)">Hata: ${err.message}</p></div>`;
+      }
+    }
+
+    initWiki();
+    lucide.createIcons();
+  </script>
+</body>
+</html>

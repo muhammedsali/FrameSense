@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analiz Geçmişi — watch-youtube</title>
+  <meta name="description" content="Daha önce analiz edilen tüm YouTube videoları." />
+  <!-- Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <style>
+    .history-page {
+      padding-top: calc(var(--nav-h) + var(--sp-12));
+      padding-bottom: var(--sp-20);
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding-left: var(--sp-6);
+      padding-right: var(--sp-6);
+    }
+
+    .history-header {
+      margin-bottom: var(--sp-10);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .history-title { font-size: var(--fs-4xl); font-weight: 800; }
+    .history-subtitle { color: var(--clr-text-2); margin-top: var(--sp-2); }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: var(--sp-6);
+    }
+
+    .history-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--r-xl);
+      padding: var(--sp-6);
+      transition: all var(--duration-base);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+      position: relative;
+    }
+    .history-card:hover {
+      border-color: var(--clr-primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .history-card__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .history-card__status {
+      font-size: 10px; font-weight: 800; text-transform: uppercase;
+      padding: 4px 8px; border-radius: var(--r-full);
+    }
+    .status--done { background: var(--clr-green-lt); color: var(--clr-green); }
+    .status--running { background: var(--clr-primary-lt); color: var(--clr-primary); }
+    .status--error { background: #fee2e2; color: #ef4444; }
+
+    .history-card__id {
+      font-family: var(--font-mono); font-size: 10px; color: var(--clr-text-3);
+    }
+
+    .history-card__url {
+      font-size: var(--fs-sm); font-weight: 600; color: var(--clr-text);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.5;
+    }
+
+    .history-card__meta {
+      display: flex; gap: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 1px solid var(--clr-border);
+      margin-top: auto;
+    }
+    .meta-item { display: flex; align-items: center; gap: var(--sp-1); font-size: var(--fs-xs); color: var(--clr-text-2); }
+    .meta-item i { color: var(--clr-text-3); }
+
+    .history-card__footer {
+      display: flex; gap: var(--sp-2);
+    }
+
+    .history-empty {
+      text-align: center; padding: var(--sp-20) 0; color: var(--clr-text-3);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <nav class="navbar">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__brand">
+        <span class="navbar__logo"><i data-lucide="play" style="width:14px;height:14px;"></i></span>
+        <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
+      </a>
+      <ul class="navbar__links">
+        <li><a href="../index.html" class="navbar__link">← Yeni Analiz</a></li>
+        <li><a href="wiki.html" class="navbar__link">Wiki</a></li>
+        <li><a href="history.html" class="navbar__link navbar__link--active">Geçmiş</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="history-page">
+    <div class="history-header">
+      <div>
+        <h1 class="history-title">Geçmiş</h1>
+        <p class="history-subtitle">Daha önce analiz ettiğiniz tüm videolar burada saklanır.</p>
+      </div>
+      <div id="job-count" style="font-weight: 700; color: var(--clr-primary);">0 İş</div>
+    </div>
+
+    <div class="history-grid" id="history-grid">
+      <!-- JS ile doldurulur -->
+      <div class="history-empty">Yükleniyor...</div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { getHistory } from '../assets/js/api.js';
+
+    const gridEl  = document.getElementById('history-grid');
+    const countEl = document.getElementById('job-count');
+
+    async function initHistory() {
+      try {
+        const { items, total } = await getHistory();
+        countEl.textContent = `${total} İş`;
+        renderHistory(items);
+      } catch (err) {
+        gridEl.innerHTML = `<div class="history-empty" style="color:var(--clr-accent)">Geçmiş yüklenemedi: ${err.message}</div>`;
+      }
+    }
+
+    function renderHistory(items) {
+      if (!items.length) {
+        gridEl.innerHTML = '<div class="history-empty">Henüz analiz edilmiş bir video yok.</div>';
+        return;
+      }
+
+      gridEl.innerHTML = '';
+      items.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'history-card';
+        
+        const date = new Date(item.created_at).toLocaleDateString('tr-TR', {
+          day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'
+        });
+
+        card.innerHTML = `
+          <div class="history-card__header">
+            <span class="history-card__status status--${item.status}">${item.status === 'done' ? 'Tamamlandı' : item.status}</span>
+            <span class="history-card__id">#${item.job_id.slice(0, 8)}</span>
+          </div>
+          <div class="history-card__url">${item.url}</div>
+          <div class="history-card__meta">
+            <div class="meta-item"><i data-lucide="calendar" style="width:12px;height:12px;"></i> ${date}</div>
+            ${item.board_count ? `<div class="meta-item"><i data-lucide="layout-grid" style="width:12px;height:12px;"></i> ${item.board_count} Sayfa</div>` : ''}
+          </div>
+          <div class="history-card__footer">
+            ${item.status === 'done' ? 
+              `<a href="viewer.html?video_id=${item.video_id}&job_id=${item.job_id}" class="btn btn--sm btn--primary btn--full">Görüntüle</a>` : 
+              `<a href="process.html?url=${encodeURIComponent(item.url)}" class="btn btn--sm btn--ghost btn--full">İncele</a>`
+            }
+          </div>
+        `;
+        gridEl.appendChild(card);
+      });
+      
+      lucide.createIcons();
+    }
+
+    initHistory();
+  </script>
+</body>
+</html>
