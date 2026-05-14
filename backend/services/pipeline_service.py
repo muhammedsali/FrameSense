@@ -50,8 +50,14 @@ class PipelineService:
             logger.info(f"[{job_id}] Pipeline tamamlandı: {time.time() - t_start:.1f}s")
 
         except Exception as exc:
-            logger.exception(f"[{job_id}] Pipeline hatası: {exc}")
-            self._store.set_error(job_id, str(exc))
+            error_msg = f"Hata: {str(exc)}"
+            logger.error(f"[{job_id}] {error_msg}")
+            # Hatayı adım adım göster / Show error in steps
+            for i in range(1, 5):
+                step = next((s for s in self._store.get(job_id).steps if s.step == i), None)
+                if step and step.status == JobStatus.RUNNING:
+                    self._store.update_step(job_id, i, JobStatus.ERROR, description=error_msg)
+            self._store.set_error(job_id, error_msg)
 
     def _run_pipeline(
         self,
