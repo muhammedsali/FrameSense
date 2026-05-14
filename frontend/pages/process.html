@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analiz Ediliyor — watch-youtube</title>
+  <meta name="description" content="YouTube video analiz işlemi devam ediyor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/process.css" />
+</head>
+<body>
+
+  <!-- Arka plan / Background -->
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="orb orb--1"></div>
+    <div class="orb orb--2"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <!-- Navigasyon / Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Ana navigasyon">
+    <div class="navbar__inner">
+      <a href="../index.html" class="navbar__brand" aria-label="Ana sayfaya dön">
+        <span class="navbar__logo" aria-hidden="true">▶</span>
+        <span class="navbar__name">watch<span class="navbar__accent">-youtube</span></span>
+      </a>
+      <a href="../index.html" class="btn btn--sm btn--ghost" id="cancel-btn">✕ İptal Et</a>
+    </div>
+  </nav>
+
+  <div class="process-page" role="main">
+    <div class="process-main">
+
+      <!-- Video Bilgi Kartı / Video info card -->
+      <div class="video-info-card glass-card" id="video-info-card">
+        <div class="video-info-card__thumb" id="video-thumb" aria-hidden="true">▶</div>
+        <div>
+          <div class="video-info-card__title" id="video-title">Video analiz ediliyor...</div>
+          <div class="video-info-card__url" id="video-url"></div>
+        </div>
+        <div class="video-info-card__status">
+          <span class="status-badge status-badge--running" id="status-badge" aria-live="polite">
+            <span class="status-badge__dot" aria-hidden="true"></span>
+            <span id="status-text">Çalışıyor</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Genel İlerleme / Overall progress -->
+      <div class="progress-overall" aria-label="Genel ilerleme">
+        <div class="progress-overall__header">
+          <span class="progress-overall__label">Genel İlerleme</span>
+          <span class="progress-overall__pct" id="progress-pct" aria-live="polite">0%</span>
+        </div>
+        <div class="progress-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-role">
+          <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Adım Listesi / Steps list -->
+      <div class="steps-list" id="steps-list" role="list" aria-label="Pipeline adımları">
+
+        <!-- Adım 1: İndir / Step 1: Download -->
+        <div class="step-item" id="step-1" role="listitem">
+          <div class="step-item__icon" id="step-1-icon" aria-hidden="true">⬇️</div>
+          <div class="step-item__body">
+            <div class="step-item__title">
+              <span>Transcript + Video İndir</span>
+              <span id="step-1-indicator"></span>
+            </div>
+            <div class="step-item__desc" id="step-1-desc">yt-dlp ile transcript ve video indiriliyor...</div>
+          </div>
+          <span class="step-item__time" id="step-1-time"></span>
+        </div>
+
+        <!-- Adım 2: NLP / Step 2: NLP -->
+        <div class="step-item" id="step-2" role="listitem">
+          <div class="step-item__icon" id="step-2-icon" aria-hidden="true">🧠</div>
+          <div class="step-item__body">
+            <div class="step-item__title">
+              <span>NLP Analizi</span>
+              <span id="step-2-indicator"></span>
+            </div>
+            <div class="step-item__desc" id="step-2-desc">spaCy + keyword store ile akıllı timestamp'ler tespit ediliyor...</div>
+          </div>
+          <span class="step-item__time" id="step-2-time"></span>
+        </div>
+
+        <!-- Adım 3: Frame Çıkarma / Step 3: Frame extraction -->
+        <div class="step-item" id="step-3" role="listitem">
+          <div class="step-item__icon" id="step-3-icon" aria-hidden="true">📸</div>
+          <div class="step-item__body">
+            <div class="step-item__title">
+              <span>Frame Çıkarma</span>
+              <span id="step-3-indicator"></span>
+            </div>
+            <div class="step-item__desc" id="step-3-desc">ffmpeg ile seçilen anlardaki kareler alınıyor...</div>
+          </div>
+          <span class="step-item__time" id="step-3-time"></span>
+        </div>
+
+        <!-- Adım 4: Storyboard / Step 4: Compile -->
+        <div class="step-item" id="step-4" role="listitem">
+          <div class="step-item__icon" id="step-4-icon" aria-hidden="true">🗂️</div>
+          <div class="step-item__body">
+            <div class="step-item__title">
+              <span>Storyboard + Wiki Oluştur</span>
+              <span id="step-4-indicator"></span>
+            </div>
+            <div class="step-item__desc" id="step-4-desc">Pillow ile grid derleniyor, wiki sayfaları yazılıyor...</div>
+          </div>
+          <span class="step-item__time" id="step-4-time"></span>
+        </div>
+
+      </div>
+
+      <!-- Log Konsolu / Log console -->
+      <div class="log-console">
+        <div class="log-console__header">
+          <span class="log-console__title">
+            <span class="log-console__dot" id="log-dot" aria-hidden="true"></span>
+            Terminal Çıktısı
+          </span>
+          <button class="btn btn--sm btn--ghost" id="clear-log-btn" aria-label="Logları temizle">Temizle</button>
+        </div>
+        <div class="log-console__body" id="log-body" role="log" aria-live="polite" aria-label="İşlem logları">
+          <div class="log-line log-line--info">
+            <span class="log-line__time" aria-hidden="true">—</span>
+            <span class="log-line__msg">Pipeline başlatılıyor...</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sonuç: Başarı banner'ı (gizli başlar) / Success banner (hidden initially) -->
+  <div id="success-banner" class="success-banner" hidden aria-live="assertive">
+    <div class="success-banner__inner glass-card">
+      <span class="success-banner__icon" aria-hidden="true">✅</span>
+      <div>
+        <div class="success-banner__title">Analiz Tamamlandı!</div>
+        <div class="success-banner__sub" id="success-sub"></div>
+      </div>
+      <a href="#" id="view-storyboard-btn" class="btn btn--primary btn--md">Storyboard'ı Gör →</a>
+    </div>
+  </div>
+
+  <style>
+    /* Başarı banner'ı / Success banner - yalnızca bu sayfada / only this page */
+    .success-banner {
+      position: fixed; bottom: var(--sp-6); left: 50%; transform: translateX(-50%);
+      z-index: 200; width: calc(100% - var(--sp-12)); max-width: 680px;
+      animation: slideUp 0.5s var(--ease-spring);
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform: translateX(-50%) translateY(20px); }
+      to   { opacity:1; transform: translateX(-50%) translateY(0); }
+    }
+    .success-banner__inner {
+      display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-4) var(--sp-6);
+      border-color: rgba(34,211,165,0.3);
+    }
+    .success-banner__icon { font-size: var(--fs-2xl); flex-shrink:0; }
+    .success-banner__title { font-size: var(--fs-base); font-weight:700; }
+    .success-banner__sub   { font-size: var(--fs-sm); color: var(--clr-text-2); }
+  </style>
+
+  <script src="../assets/js/progress.js" defer></script>
+</body>
+</html>
