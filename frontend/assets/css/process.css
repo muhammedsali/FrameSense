@@ -1,0 +1,214 @@
+/* =========================================
+   WATCH-YOUTUBE — İşlem Ekranı CSS
+   Gerçek zamanlı pipeline adım takibi
+   ========================================= */
+
+/* ---------- Ana Layout ---------- */
+.process-page {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  padding-top: var(--nav-h);
+}
+.process-main {
+  flex: 1;
+  max-width: 860px; margin: 0 auto; width: 100%;
+  padding: var(--sp-12) var(--sp-6);
+}
+
+/* ---------- Video Bilgi Kartı / Video Info Card ---------- */
+.video-info-card {
+  display: flex; align-items: center; gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  margin-bottom: var(--sp-8);
+}
+.video-info-card__thumb {
+  width: 96px; height: 54px; border-radius: var(--r-md);
+  object-fit: cover; flex-shrink: 0;
+  background: var(--clr-surface-2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--clr-text-3); font-size: var(--fs-xs);
+}
+.video-info-card__title {
+  font-size: var(--fs-base); font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 400px;
+}
+.video-info-card__url {
+  font-size: var(--fs-xs); font-family: var(--font-mono);
+  color: var(--clr-text-3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 400px;
+}
+.video-info-card__status {
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* ---------- Durum Rozeti / Status Badge ---------- */
+.status-badge {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--r-full);
+  font-size: var(--fs-xs); font-weight: 700;
+}
+.status-badge--running {
+  background: rgba(34,211,165,0.1);
+  border: 1px solid rgba(34,211,165,0.3);
+  color: var(--clr-green);
+}
+.status-badge--done {
+  background: rgba(108,99,255,0.1);
+  border: 1px solid rgba(108,99,255,0.3);
+  color: var(--clr-primary);
+}
+.status-badge--error {
+  background: rgba(255,77,109,0.1);
+  border: 1px solid rgba(255,77,109,0.3);
+  color: var(--clr-accent);
+}
+.status-badge__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: currentColor;
+}
+.status-badge--running .status-badge__dot {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+/* ---------- Genel İlerleme / Overall Progress ---------- */
+.progress-overall {
+  margin-bottom: var(--sp-8);
+}
+.progress-overall__header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: var(--sp-2);
+}
+.progress-overall__label { font-size: var(--fs-sm); font-weight: 600; }
+.progress-overall__pct {
+  font-size: var(--fs-sm); font-family: var(--font-mono);
+  color: var(--clr-primary); font-weight: 700;
+}
+.progress-bar-track {
+  height: 6px; border-radius: var(--r-full);
+  background: var(--clr-surface-2);
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%; border-radius: var(--r-full);
+  background: var(--grad-primary);
+  transition: width 0.6s var(--ease-out);
+  box-shadow: 0 0 12px rgba(108,99,255,0.5);
+}
+
+/* ---------- Adım Listesi / Steps List ---------- */
+.steps-list {
+  display: flex; flex-direction: column; gap: var(--sp-3);
+  margin-bottom: var(--sp-8);
+}
+.step-item {
+  display: flex; align-items: flex-start; gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-lg);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  transition: all var(--duration-base) var(--ease-out);
+}
+.step-item--active {
+  border-color: rgba(108,99,255,0.35);
+  background: rgba(108,99,255,0.06);
+  box-shadow: 0 0 20px rgba(108,99,255,0.1);
+}
+.step-item--done {
+  border-color: rgba(34,211,165,0.2);
+  background: rgba(34,211,165,0.04);
+}
+.step-item--error {
+  border-color: rgba(255,77,109,0.3);
+  background: rgba(255,77,109,0.05);
+}
+
+/* Adım İkonu / Step Icon */
+.step-item__icon {
+  width: 36px; height: 36px; border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: var(--fs-base);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  transition: all var(--duration-base);
+}
+.step-item--active .step-item__icon {
+  background: rgba(108,99,255,0.15);
+  border-color: var(--clr-primary);
+  animation: stepGlow 2s ease-in-out infinite;
+}
+.step-item--done .step-item__icon {
+  background: rgba(34,211,165,0.15);
+  border-color: var(--clr-green);
+}
+@keyframes stepGlow {
+  0%,100% { box-shadow: 0 0 0 rgba(108,99,255,0); }
+  50%      { box-shadow: 0 0 16px rgba(108,99,255,0.3); }
+}
+
+/* Adım İçeriği / Step Content */
+.step-item__body { flex: 1; min-width: 0; }
+.step-item__title {
+  font-size: var(--fs-sm); font-weight: 700;
+  margin-bottom: var(--sp-1);
+  display: flex; align-items: center; gap: var(--sp-2);
+}
+.step-item__desc { font-size: var(--fs-xs); color: var(--clr-text-2); }
+.step-item__time {
+  font-size: var(--fs-xs); font-family: var(--font-mono);
+  color: var(--clr-text-3); flex-shrink: 0; align-self: center;
+}
+
+/* Spinner */
+.spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(108,99,255,0.2);
+  border-top-color: var(--clr-primary);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Checkmark */
+.checkmark { color: var(--clr-green); font-size: var(--fs-sm); }
+.error-mark { color: var(--clr-accent); font-size: var(--fs-sm); }
+
+/* ---------- Log Konsolu / Log Console ---------- */
+.log-console {
+  border-radius: var(--r-lg);
+  background: var(--clr-bg-2);
+  border: 1px solid var(--clr-border);
+  overflow: hidden;
+}
+.log-console__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--clr-border);
+  background: var(--clr-surface);
+}
+.log-console__title {
+  font-size: var(--fs-xs); font-weight: 700; font-family: var(--font-mono);
+  color: var(--clr-text-2);
+  display: flex; align-items: center; gap: var(--sp-2);
+}
+.log-console__dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--clr-green);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+.log-console__body {
+  padding: var(--sp-4);
+  height: 200px; overflow-y: auto;
+  font-size: var(--fs-xs); font-family: var(--font-mono);
+  line-height: 1.8;
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-border) transparent;
+}
+.log-line { display: flex; gap: var(--sp-3); align-items: baseline; }
+.log-line__time { color: var(--clr-text-3); flex-shrink: 0; }
+.log-line__msg  { color: var(--clr-text-2); }
+.log-line--info  .log-line__msg { color: var(--clr-text); }
+.log-line--ok    .log-line__msg { color: var(--clr-green); }
+.log-line--warn  .log-line__msg { color: var(--clr-yellow); }
+.log-line--error .log-line__msg { color: var(--clr-accent); }
