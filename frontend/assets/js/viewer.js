@@ -4,7 +4,7 @@
  * Loads storyboards and metadata from real backend.
  */
 
-import { getStoryboards, storyboardUrl, getJobStatus } from '../assets/js/api.js';
+import { getStoryboards, storyboardUrl, getJobStatus } from './api.js';
 
 // ============================================================
 // URL Parametreleri / URL Parameters
