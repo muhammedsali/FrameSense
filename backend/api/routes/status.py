@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Durum Route'u
+FrameSense Backend — Durum Route'u
 GET /api/status/{job_id} — İş durumunu sorgular
 WebSocket /ws/job/{job_id} — Gerçek zamanlı log akışı
 """

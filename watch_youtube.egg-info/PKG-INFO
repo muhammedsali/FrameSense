@@ -1,5 +1,5 @@
 Metadata-Version: 2.4
-Name: watch-youtube
+Name: FrameSense
 Version: 0.1.0
 Summary: YouTube video storyboard generator for Vision LLMs
 Requires-Python: >=3.11

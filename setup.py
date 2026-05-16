@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="watch-youtube",
+    name="FrameSense",
     version="0.1.0",
     description="YouTube video storyboard generator for Vision LLMs",
     packages=find_packages(),
@@ -17,7 +17,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "watch-youtube=watch_youtube.main:cli",
+            "FrameSense=framesense.main:cli",
         ],
     },
 )

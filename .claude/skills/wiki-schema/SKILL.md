@@ -37,7 +37,7 @@ Tüm projeyi veya son değişiklikleri tara, mimariyi anla ve `/docs/wiki` için
 ### QUERY
 Benden yeni bir mimari plan/özellik istendiğinde, kodu taramak yerine ÖNCE `/docs/wiki/Index.md`'ye git, ilgili Wiki dosyalarını oku ve ona göre plan çıkar.
 
-### VIDEO_INGEST (watch-youtube entegrasyonu)
+### VIDEO_INGEST (FrameSense entegrasyonu)
 Bir YouTube videosu analiz edildiğinde:
 1. Videonun başlığına uygun PascalCase bir dosya adı seç (Örn: `OperatingSystemFundamentals.md`)
 2. Videonun ana kavramlarını wiki sayfasına yaz

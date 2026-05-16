@@ -40,7 +40,7 @@ def generate_wiki_page(
         content.append(f"| {time_str} | {ts.transcript_text[:100]}... |")
         
     content.append("\n\n---")
-    content.append("\n*watch-youtube AI tarafından otomatik oluşturulmuştur.*")
+    content.append("\n*FrameSense AI tarafından otomatik oluşturulmuştur.*")
     
     file_path.write_text("\n".join(content), encoding="utf-8")
     logger.info(f"Wiki sayfası oluşturuldu: {file_path.name}")

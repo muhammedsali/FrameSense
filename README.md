@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/play-circle.svg" alt="watch-youtube logo" width="80" height="80">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/play-circle.svg" alt="FrameSense logo" width="80" height="80">
   
-  # watch-youtube
+  # FrameSense
 
   **Vision LLM'ler için Akıllı YouTube Video Analiz ve Storyboard Motoru**
 
@@ -15,13 +15,13 @@
 
 <br/>
 
-`watch-youtube`, uzun YouTube videolarını Vision LLM'ler (örn. GPT-4V, Claude 3.5 Sonnet, LLaVA) için optimize edilmiş "Storyboard" gridlerine dönüştüren yüksek performanslı bir pipeline aracıdır.
+`FrameSense`, uzun YouTube videolarını Vision LLM'ler (örn. GPT-4V, Claude 3.5 Sonnet, LLaVA) için optimize edilmiş "Storyboard" gridlerine dönüştüren yüksek performanslı bir pipeline aracıdır.
 
 Videoları kare kare indirmek yerine NLP (Doğal Dil İşleme) kullanarak transkript üzerinden "akıllı zaman damgaları" (smart timestamps) belirler ve yalnızca en kritik anları bir araya getirerek token tasarrufu sağlar.
 
 ---
 
-## 🌟 Neden watch-youtube?
+## 🌟 Neden FrameSense?
 
 Meta, OpenAI ve Google gibi devlerin Vision model araştırma projelerinde kullanılan pipeline mantığına uygun tasarlanmıştır:
 
@@ -56,8 +56,8 @@ Sistem 4 ana adımdan (Pipeline) oluşur:
 Projeyi klonlayın ve bağımlılıkları yükleyin. Windows kullanıcıları için otomatik kurulum scripti mevcuttur:
 
 ```bash
-git clone https://github.com/KULLANICI_ADI/watch-youtube.git
-cd watch-youtube
+git clone https://github.com/KULLANICI_ADI/FrameSense.git
+cd FrameSense
 
 # Bağımlılıkları, klasörleri ve spaCy modellerini otomatik kurmak için:
 python setup_env.py
@@ -93,7 +93,7 @@ Proje ayarlarını kök dizindeki `.env` dosyasından veya doğrudan UI üzerind
 ## 📂 Proje Yapısı
 
 ```text
-watch-youtube/
+FrameSense/
 ├── backend/                  # FastAPI Sunucu ve Servisleri
 │   ├── api/routes/           # REST ve WebSocket Uç Noktaları
 │   ├── core/                 # Config ve JobStore (In-memory state)
@@ -101,7 +101,7 @@ watch-youtube/
 ├── frontend/                 # Modern Meta UI (HTML/CSS/JS)
 │   ├── assets/               # CSS Tokens, JS (ES Modules)
 │   └── pages/                # Viewer, Process, History, Wiki Sayfaları
-├── watch_youtube/            # Çekirdek Python Kütüphanesi (Core logic)
+├── framesense/            # Çekirdek Python Kütüphanesi (Core logic)
 │   ├── analyzer.py           # spaCy NLP & Keyword logic
 │   ├── compiler.py           # Pillow Grid builder
 │   ├── downloader.py         # yt-dlp wrapper

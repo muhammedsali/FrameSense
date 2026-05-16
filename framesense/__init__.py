@@ -1,4 +1,4 @@
-"""watch-youtube: YouTube video storyboard generator for Vision LLMs."""
+"""FrameSense: YouTube video storyboard generator for Vision LLMs."""
 
 from dataclasses import dataclass, field
 from pathlib import Path

@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Wiki Route'u
+FrameSense Backend — Wiki Route'u
 GET /api/wiki — Tüm wiki sayfalarını listeler
 GET /api/wiki/{filename} — Tek sayfayı döndürür
 GET /api/wiki/{filename}/content — Ham Markdown içeriğini döndürür

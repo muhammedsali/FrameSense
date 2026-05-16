@@ -1,4 +1,4 @@
-"""watch-youtube CLI entry point."""
+"""FrameSense CLI entry point."""
 
 import logging
 import shutil
@@ -84,7 +84,7 @@ def cli(
     no_learn: bool,
     verbose: bool,
 ) -> None:
-    """watch-youtube: YouTube video storyboard generator for Vision LLMs.
+    """FrameSense: YouTube video storyboard generator for Vision LLMs.
 
     Downloads a YouTube video, extracts semantically relevant frames using
     transcript NLP analysis, and compiles them into annotated storyboard grids
@@ -92,7 +92,7 @@ def cli(
 
     \b
     Example:
-      watch-youtube "https://www.youtube.com/watch?v=dQw4w9WgXcQ" -o ./output -n 12 -v
+      FrameSense "https://www.youtube.com/watch?v=dQw4w9WgXcQ" -o ./output -n 12 -v
     """
     log_level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
@@ -100,9 +100,9 @@ def cli(
         datefmt="%H:%M:%S",
         level=log_level,
     )
-    log = logging.getLogger("watch_youtube")
+    log = logging.getLogger("framesense")
 
-    temp_dir = Path(tempfile.mkdtemp(prefix="watch_youtube_"))
+    temp_dir = Path(tempfile.mkdtemp(prefix="framesense_"))
     t_start = time.time()
 
     try:
@@ -172,10 +172,10 @@ def cli(
         log.info("=" * 62)
 
     except ValueError as exc:
-        logging.getLogger("watch_youtube").error(f"Video error: {exc}")
+        logging.getLogger("framesense").error(f"Video error: {exc}")
         raise click.Abort() from exc
     except EnvironmentError as exc:
-        logging.getLogger("watch_youtube").error(str(exc))
+        logging.getLogger("framesense").error(str(exc))
         raise click.Abort() from exc
     finally:
         if not keep_temp:

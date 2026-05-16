@@ -1,9 +1,9 @@
 ---
-name: watch-youtube
+name: FrameSense
 description: Analyze a YouTube video by downloading its transcript, extracting semantically relevant frames using NLP, and compiling them into annotated storyboard grids optimized for Vision LLM token efficiency. After analysis, writes extracted knowledge to docs/wiki/ following wiki-schema rules. Use this skill whenever the user provides a YouTube URL and wants to analyze, summarize, or understand a video's visual content. Trigger on: "analyze this YouTube video", "understand what's shown in this video", "extract key frames", "summarize this tutorial", "what does this video show", "create a storyboard", "compress this video for LLM", "vision LLM video input".
 ---
 
-# watch-youtube: YouTube Video Storyboard for Vision LLMs
+# FrameSense: YouTube Video Storyboard for Vision LLMs
 
 Turns a YouTube video into annotated JPEG storyboard grids, analyzes them with Vision LLM, and writes the extracted knowledge to `docs/wiki/` using wiki-schema rules.
 
@@ -11,7 +11,7 @@ Turns a YouTube video into annotated JPEG storyboard grids, analyzes them with V
 
 1. Confirm the YouTube URL and desired output directory.
 2. Check that dependencies are installed (see **Setup** below).
-3. Run the pipeline via the `watch-youtube` CLI.
+3. Run the pipeline via the `FrameSense` CLI.
 4. Read storyboards from `output/<video_id>/storyboard_page_*.jpg` and analyze with Vision LLM.
 5. Show the user a structured analysis.
 6. Write the extracted knowledge to `docs/wiki/` following **wiki-schema** rules (see section below).
@@ -44,7 +44,7 @@ brew install ffmpeg   # macOS
 ## Running the pipeline
 
 ```bash
-watch-youtube "<YOUTUBE_URL>" \
+FrameSense "<YOUTUBE_URL>" \
     --output-dir ./output \
     --max-frames 20 \
     --jpeg-quality 85 \

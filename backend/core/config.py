@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Uygulama Yapılandırması
+FrameSense Backend — Uygulama Yapılandırması
 Settings ve environment variable yönetimi
 Application settings and environment variable management
 """
@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     )
 
     # Uygulama bilgisi / App info
-    app_name: str = "watch-youtube API"
+    app_name: str = "FrameSense API"
     app_version: str = "1.0.0"
     debug: bool = False
 
@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     # Groq API (opsiyonel / optional)
     groq_api_key: str | None = None
 
-    # watch-youtube pipeline varsayılanları / pipeline defaults
+    # FrameSense pipeline varsayılanları / pipeline defaults
     default_max_frames: int = 30
     default_silence_gap: float = 5.0
     default_jpeg_quality: int = 85

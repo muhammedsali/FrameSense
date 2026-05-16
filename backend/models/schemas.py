@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Pydantic Şemaları
+FrameSense Backend — Pydantic Şemaları
 Request/Response modelleri — veri doğrulama
 Request/Response models — data validation
 """

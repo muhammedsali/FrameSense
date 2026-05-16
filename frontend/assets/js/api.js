@@ -1,6 +1,6 @@
 /**
  * api.js — Backend API istemcisi
- * Backend API client — watch-youtube
+ * Backend API client — FrameSense
  * Tüm HTTP ve WebSocket çağrıları burada / All HTTP and WebSocket calls are here
  */
 

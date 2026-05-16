@@ -18,7 +18,7 @@ Kullanıcı bir konu veya video hakkında soru sorduğunda şu sırayı takip et
 Kullanıcı bir YouTube URL'si paylaşırsa veya belirli bir video hakkında soru sorarsa:
 - `docs/wiki/Videos.md` dosyasını aç, video ID'yi ara
 - **Zaten analiz edilmişse**: o videoya ait sayfaları listele ve doğrudan cevapla
-- **Analiz edilmemişse**: `watch-youtube` skill'ini çalıştır
+- **Analiz edilmemişse**: `FrameSense` skill'ini çalıştır
 
 ### 3. Wiki'de konu yoksa YouTube linki iste
 
@@ -26,11 +26,11 @@ Konu wiki'de bulunamadıysa şunu söyle:
 
 > "Bu konu hakkında henüz wiki'de bilgi yok. Konuyla ilgili bir YouTube videosu varsa linkini paylaş, analiz edip wiki'ye ekleyeyim."
 
-Kullanıcı link verirse `watch-youtube` skill'ini kullan.
+Kullanıcı link verirse `FrameSense` skill'ini kullan.
 
-### 4. watch-youtube skill'ini çalıştır
+### 4. FrameSense skill'ini çalıştır
 
-`watch-youtube` skill'i şunları yapar:
+`FrameSense` skill'i şunları yapar:
 1. Videoyu indirir, transcript + frame'leri çıkarır
 2. Storyboard grid'leri oluşturur
 3. Vision LLM ile analiz eder
@@ -56,9 +56,9 @@ Her knowledge sayfası hangi video(lar)dan türediğini `**Kaynak Video:**` alan
 ## Proje Yapısı
 
 ```
-watch_youtube/       # Python paketi — CLI ve pipeline
+framesense/       # Python paketi — CLI ve pipeline
 .claude/skills/
-  watch-youtube/     # watch-youtube skill talimatları
+  FrameSense/     # FrameSense skill talimatları
   wiki-schema/       # Wiki format kuralları
 docs/wiki/
   Index.md           # Ana harita — HER ZAMAN buradan başla
@@ -71,7 +71,7 @@ output/              # Oluşturulan storyboard JPEG'leri
 
 ```bash
 source .venv/bin/activate
-watch-youtube "<URL>" --output-dir ./output --max-frames 30 --verbose
+FrameSense "<URL>" --output-dir ./output --max-frames 30 --verbose
 ```
 
 ## Bağımlılıklar

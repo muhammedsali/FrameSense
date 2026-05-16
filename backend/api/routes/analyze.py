@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Analiz Route'u
+FrameSense Backend — Analiz Route'u
 POST /api/analyze — YouTube URL'si analiz kuyruğuna alır
 POST /api/analyze — Queues a YouTube URL for analysis
 """

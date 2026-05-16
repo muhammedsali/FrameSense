@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — İş Deposu
+FrameSense Backend — İş Deposu
 In-memory iş kuyruğu — thread-safe job tracking
 In-memory job queue — thread-safe job tracking
 """

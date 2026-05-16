@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Storyboard Route'u
+FrameSense Backend — Storyboard Route'u
 GET /api/storyboards/{video_id} — Storyboard dosyalarını listeler
 GET /api/storyboards/{video_id}/{filename} — Tek dosyayı döndürür
 """

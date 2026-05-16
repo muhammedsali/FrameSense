@@ -1,7 +1,7 @@
 """
-watch-youtube Backend — Pipeline Servisi
-watch_youtube Python paketini sarmalar ve job store ile entegre eder.
-Wraps the watch_youtube Python package and integrates with job store.
+FrameSense Backend — Pipeline Servisi
+framesense Python paketini sarmalar ve job store ile entegre eder.
+Wraps the framesense Python package and integrates with job store.
 """
 
 from __future__ import annotations
@@ -23,9 +23,9 @@ logger = logging.getLogger(__name__)
 
 class PipelineService:
     """
-    watch_youtube pipeline'ını çalıştıran servis.
+    framesense pipeline'ını çalıştıran servis.
     Adım adım ilerlemeyi job_store'a yazar.
-    Service that runs the watch_youtube pipeline.
+    Service that runs the framesense pipeline.
     Writes step-by-step progress to job_store.
     """
 
@@ -73,18 +73,18 @@ class PipelineService:
         import shutil
         from pathlib import Path
 
-        # watch_youtube paketini import et / Import watch_youtube package
+        # framesense paketini import et / Import framesense package
         # Proje kökünden import ediyoruz / Importing from project root
         import sys
         project_root = self._settings.project_root
         if str(project_root) not in sys.path:
             sys.path.insert(0, str(project_root))
 
-        from watch_youtube.downloader import download_video
-        from watch_youtube.analyzer import extract_smart_timestamps, update_keyword_store
-        from watch_youtube.extractor import check_ffmpeg, get_video_duration, extract_frames
-        from watch_youtube.compiler import compile_storyboards
-        from watch_youtube.wiki_generator import generate_wiki_page
+        from framesense.downloader import download_video
+        from framesense.analyzer import extract_smart_timestamps, update_keyword_store
+        from framesense.extractor import check_ffmpeg, get_video_duration, extract_frames
+        from framesense.compiler import compile_storyboards
+        from framesense.wiki_generator import generate_wiki_page
 
         temp_dir = Path(tempfile.mkdtemp(prefix="wy_api_"))
 

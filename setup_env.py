@@ -25,7 +25,7 @@ def check_ffmpeg():
         return False
 
 def setup():
-    print("=== watch-youtube Proje Kurulumu ===")
+    print("=== FrameSense Proje Kurulumu ===")
     
     # 1. Temel kütüphaneler
     libraries = "fastapi uvicorn[standard] pydantic pydantic-settings python-multipart websockets yt-dlp spacy pillow requests webvtt-py jinja2"

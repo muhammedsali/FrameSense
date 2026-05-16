@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — Wiki Servisi
+FrameSense Backend — Wiki Servisi
 docs/wiki/ klasöründeki Markdown dosyalarını okur ve parse eder.
 Reads and parses Markdown files from docs/wiki/ directory.
 """

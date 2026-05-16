@@ -1,5 +1,5 @@
 """
-watch-youtube Backend — FastAPI Uygulama Giriş Noktası
+FrameSense Backend — FastAPI Uygulama Giriş Noktası
 Tüm route'ları birleştirir, CORS ve middleware'leri yapılandırır.
 Main FastAPI application entry point.
 Combines all routes, configures CORS and middlewares.
@@ -26,7 +26,7 @@ logging.basicConfig(
     datefmt="%H:%M:%S",
     level=logging.INFO,
 )
-logger = logging.getLogger("watch_youtube.api")
+logger = logging.getLogger("framesense.api")
 
 # ---------------------------------------------------------------------------
 # FastAPI Uygulaması / FastAPI Application
