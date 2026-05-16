@@ -5,39 +5,39 @@
 
 /* ---------- Tasarım Değişkenleri / Design Tokens ---------- */
 :root {
-  /* Renkler — Teal/Cyan-Green AI Mode / Colors */
+  /* Renkler — Meta / React Design Style */
   --clr-bg:         #ffffff;
-  --clr-bg-2:       #f5f9f9;
-  --clr-bg-3:       #e9f4f3;
+  --clr-bg-2:       #f2f4f7;
+  --clr-bg-3:       #e4e6eb;
   --clr-surface:    #ffffff;
-  --clr-surface-2:  #f5f9f9;
-  --clr-border:     #d9ecea;
-  --clr-border-2:   #b0d8d4;
+  --clr-surface-2:  #f8f9fa;
+  --clr-border:     #dadde1;
+  --clr-border-2:   #ccd0d5;
 
-  --clr-primary:    #0d9488;
-  --clr-primary-2:  #0f766e;
-  --clr-primary-lt: #ccfbf1;
-  --clr-accent:     #ef4444;
-  --clr-accent-2:   #dc2626;
-  --clr-green:      #059669;
-  --clr-green-lt:   #d1fae5;
-  --clr-yellow:     #d97706;
-  --clr-yellow-lt:  #fef3c7;
-  --clr-blue:       #0891b2;
-  --clr-blue-lt:    #cffafe;
+  --clr-primary:    #0866ff; /* Meta Blue */
+  --clr-primary-2:  #0054d1;
+  --clr-primary-lt: #e7f3ff;
+  --clr-accent:     #e41e3f; /* Meta Red */
+  --clr-accent-2:   #b8122d;
+  --clr-green:      #31a24c; /* Meta Green */
+  --clr-green-lt:   #e6f6e6;
+  --clr-yellow:     #f5a623;
+  --clr-yellow-lt:  #fdf3e1;
+  --clr-blue:       #1877F2;
+  --clr-blue-lt:    #e7f3ff;
 
-  --clr-text:       #0a1a18;
-  --clr-text-2:     #5f7473;
-  --clr-text-3:     #9db4b2;
+  --clr-text:       #1c1e21; /* Meta Black */
+  --clr-text-2:     #606770; /* Meta Gray */
+  --clr-text-3:     #8d949e;
 
   /* Gradyanlar / Gradients */
-  --grad-primary:   linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
-  --grad-hero-bg:   radial-gradient(ellipse 80% 60% at 50% -10%, rgba(13,148,136,0.07) 0%, transparent 70%);
+  --grad-primary:   linear-gradient(135deg, #0866ff 0%, #1877F2 100%);
+  --grad-hero-bg:   radial-gradient(ellipse 80% 60% at 50% -10%, rgba(8,102,255,0.05) 0%, transparent 70%);
   --grad-card:      #ffffff;
 
   /* Tipografi / Typography — Plus Jakarta Sans */
-  --font-sans:  'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
-  --font-mono:  'JetBrains Mono', monospace;
+  --font-sans:  'Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --font-mono:  'JetBrains Mono', 'Menlo', 'Consolas', monospace;
 
   --fs-xs:   0.75rem;
   --fs-sm:   0.875rem;
@@ -57,15 +57,15 @@
   --sp-20: 5rem;    --sp-24: 6rem;
 
   /* Köşe yarıçapları / Border radius */
-  --r-sm:  6px;   --r-md:  10px;
-  --r-lg:  16px;  --r-xl:  20px;  --r-full: 9999px;
+  --r-sm:  4px;   --r-md:  8px;
+  --r-lg:  12px;  --r-xl:  16px;  --r-full: 9999px;
 
-  /* Gölgeler — hafif ve temiz / Shadows — light and clean */
-  --shadow-xs:  0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-  --shadow-sm:  0 4px 6px rgba(13,148,136,0.06), 0 1px 3px rgba(0,0,0,0.04);
-  --shadow-md:  0 10px 25px rgba(13,148,136,0.1), 0 4px 10px rgba(0,0,0,0.04);
-  --shadow-lg:  0 20px 40px rgba(13,148,136,0.12), 0 8px 16px rgba(0,0,0,0.05);
-  --shadow-glow: 0 0 0 3px rgba(13,148,136,0.15);
+  /* Gölgeler — Meta tarzı daha keskin ve hafif / Shadows — crisp and light */
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm:  0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 12px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-lg:  0 12px 28px rgba(0,0,0,0.1), 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 0 3px rgba(8,102,255,0.2);
 
   /* Animasyon / Animation */
   --ease-out:    cubic-bezier(0.16,1,0.3,1);
