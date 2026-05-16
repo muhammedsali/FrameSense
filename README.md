@@ -1,192 +1,128 @@
-# watch-youtube
+<div align="center">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/play-circle.svg" alt="watch-youtube logo" width="80" height="80">
+  
+  # watch-youtube
 
-YouTube videolarını Claude Code'a "izlettiren" bir pipeline. Transcript + ekran görüntülerini birleştirerek bir storyboard grid oluşturur, Claude bunu Vision LLM ile analiz eder ve bilgileri `docs/wiki/` altında Obsidian formatında saklar.
+  **Vision LLM'ler için Akıllı YouTube Video Analiz ve Storyboard Motoru**
 
-## Nasıl Çalışır
+  [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg?style=flat-square)](https://python.org)
+  [![FastAPI](https://img.shields.io/badge/FastAPI-0.136.1-009688.svg?style=flat-square)](https://fastapi.tiangolo.com)
+  [![License](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](LICENSE)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-```
-YouTube URL
-    ↓
-Transcript İndir (VTT/SRT → Groq Whisper fallback)
-    ↓
-NLP Analizi → Akıllı Timestamp Seçimi
-    ↓
-FFmpeg → Sadece O Anların Frame'leri
-    ↓
-Storyboard Grid (JPEG)
-    ↓
-Claude (Vision LLM) → Analiz
-    ↓
-docs/wiki/ → Obsidian Knowledge Base
-```
+  *Videoları baştan sona izlemeyin; yapay zeka sizin için en önemli anları bulsun ve derlesin.*
+</div>
 
-Sadece transcript kullanmak yeterli değil — önemli bilgilerin büyük kısmı ekranda gösterilir, sesle anlatılmaz. Bu pipeline transcript'i NLP ile okuyarak *nerede* ekran görüntüsü alınacağını öğrenir; sabit aralıklı frame extraction yerine semantik olarak değerli anları seçer.
+<br/>
 
-## Kurulum
+`watch-youtube`, uzun YouTube videolarını Vision LLM'ler (örn. GPT-4V, Claude 3.5 Sonnet, LLaVA) için optimize edilmiş "Storyboard" gridlerine dönüştüren yüksek performanslı bir pipeline aracıdır.
 
-**Gereksinimler:** Python 3.11+, ffmpeg, Claude Code
+Videoları kare kare indirmek yerine NLP (Doğal Dil İşleme) kullanarak transkript üzerinden "akıllı zaman damgaları" (smart timestamps) belirler ve yalnızca en kritik anları bir araya getirerek token tasarrufu sağlar.
 
-### 1. Repoyu klonla
+---
 
-```bash
-git clone <https://github.com/oguzcankaraman/Watch_Youtube_Skill>
-cd YouTube
-```
+## 🌟 Neden watch-youtube?
 
-### 2. Virtual environment
+Meta, OpenAI ve Google gibi devlerin Vision model araştırma projelerinde kullanılan pipeline mantığına uygun tasarlanmıştır:
 
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate      # macOS/Linux
-# .venv\Scripts\activate       # Windows
-```
+- **Token Optimizasyonu:** Gereksiz (sessiz, hareketsiz, boş konuşma) kareleri eler. Sabit saniye aralığına göre %75'e varan tasarruf sağlar.
+- **Akıllı NLP Filtresi:** spaCy ve dinamik bir Keyword Store (Anahtar Kelime Deposu) kullanarak videonun en can alıcı noktalarını seçer.
+- **Modern Arayüz (Meta UI):** Tamamen asenkron, WebSocket tabanlı, reaktif ve çok temiz (clean-tech) bir web arayüzü sunar.
+- **Wiki Jeneratörü:** Çıkarılan kareler ve transkriptler ile otomatik olarak Obsidian/Notion uyumlu Markdown dökümanları üretir.
+- **SOLID Mimarisi:** FastAPI üzerinde servis odaklı, genişletilmeye ve modül eklenmeye açık bir yapı.
 
-### 3. Bağımlılıkları yükle
+---
 
-```bash
-pip install -r requirements.txt
-pip install -e .
-```
+## 🏗️ Mimari (Architecture)
 
-### 4. spaCy dil modelini indir
+Sistem 4 ana adımdan (Pipeline) oluşur:
 
-```bash
-python -m spacy download en_core_web_sm
-```
+1. **Downloader (`yt-dlp`):** Videonun transkriptini ve medyayı indirir. Transkript yoksa Groq API üzerinden Whisper-v3 ile otomatik üretir.
+2. **Analyzer (`spaCy`):** NLP ile transkriptteki anahtar kelimeleri, deiktik ifadeleri (ör: "şuna bakın") ve uzun sessizlikleri tespit eder.
+3. **Extractor (`ffmpeg`):** Sadece tespit edilen o kritik saniyelerden yüksek çözünürlüklü kilit kareleri (keyframes) çıkarır.
+4. **Compiler (`Pillow` & `wiki_generator`):** Çıkarılan kareleri zaman damgaları ve altyazılarla birlikte adaptif bir grid haline getirir. Eş zamanlı olarak detaylı bir Markdown Wiki sayfası yazar.
 
-### 5. ffmpeg yükle
+---
 
-```bash
-brew install ffmpeg        # macOS
-sudo apt install ffmpeg    # Ubuntu/Debian
-# Windows: https://ffmpeg.org/download.html
-```
+## 🚀 Başlangıç (Getting Started)
 
-### 6. (Opsiyonel) Groq API Key
+### Gereksinimler
 
-YouTube altyazısı olmayan videolar için Whisper fallback:
+- Python 3.10+
+- [FFmpeg](https://ffmpeg.org/download.html) (Sistem `PATH` değişkenine ekli olmalı)
+
+### Hızlı Kurulum
+
+Projeyi klonlayın ve bağımlılıkları yükleyin. Windows kullanıcıları için otomatik kurulum scripti mevcuttur:
 
 ```bash
-export GROQ_API_KEY="gsk_..."
+git clone https://github.com/KULLANICI_ADI/watch-youtube.git
+cd watch-youtube
+
+# Bağımlılıkları, klasörleri ve spaCy modellerini otomatik kurmak için:
+python setup_env.py
 ```
 
-[Groq API key al](https://console.groq.com) — ücretsiz tier yeterli.
+*Not: Eğer sisteminizde FFmpeg yoksa, `setup_env.py` sizi uyaracaktır. Windows'ta `winget install ffmpeg` ile tek tuşla kurabilirsiniz.*
 
-## Kullanım
+### Çalıştırma
 
-### CLI
+Modern web arayüzünü ve backend'i tek bir komutla başlatın:
 
 ```bash
-source .venv/bin/activate
-
-watch-youtube "https://www.youtube.com/watch?v=VIDEO_ID" \
-  --output-dir ./output \
-  --max-frames 20 \
-  --verbose
+python -m uvicorn backend.main:app --port 8000 --reload
 ```
 
-Storyboard JPEG'leri `output/VIDEO_ID/` altına kaydedilir.
+Tarayıcınızda açın: **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
 
-### Claude Code ile
+---
 
-Claude Code kuruluysa projeyi açın ve bir YouTube URL paylaşın. `CLAUDE.md` sayesinde Claude otomatik olarak `watch-youtube` skill'ini devreye alır, videoyu analiz eder ve `docs/wiki/` altına yazar.
+## ⚙️ Konfigürasyon
 
-```
-# Claude Code'a şunu yapıştırın:
-https://www.youtube.com/watch?v=VIDEO_ID
-```
+Proje ayarlarını kök dizindeki `.env` dosyasından veya doğrudan UI üzerinden yönetebilirsiniz:
 
-## CLI Seçenekleri
+| Parametre | Varsayılan | Açıklama |
+| :--- | :--- | :--- |
+| `MAX_FRAMES` | 30 | Bir videodan çıkarılacak maksimum kare sayısı. |
+| `SILENCE_GAP` | 5.0 | Kaç saniyelik sessizliklerin ayrı bir frame olarak alınacağı. |
+| `JPEG_QUALITY` | 85 | Üretilen storyboard grid'inin kalite oranı. |
+| `GROQ_API_KEY` | - | (Opsiyonel) Altyazısı olmayan videolar için fısıltı (Whisper) modeli API anahtarı. |
 
-| Seçenek | Varsayılan | Açıklama |
-|---|---|---|
-| `--output-dir / -o` | `.` | Storyboard JPEG'lerinin kaydedileceği klasör |
-| `--max-frames / -n` | `30` | Maksimum frame sayısı |
-| `--jpeg-quality / -q` | `85` | JPEG kalitesi (1–95) |
-| `--silence-gap / -g` | `5.0` | Sessizlik eşiği (saniye) |
-| `--groq-api-key / -k` | env `GROQ_API_KEY` | Whisper fallback için Groq key |
-| `--keep-temp` | kapalı | Geçici video/frame dosyalarını sakla |
-| `--no-learn` | kapalı | Bu çalıştırmada keyword öğrenmesini atla |
-| `--verbose / -v` | kapalı | Debug log'larını göster |
+---
 
-## Proje Yapısı
+## 📂 Proje Yapısı
 
-```
-watch_youtube/
-  __init__.py      # Veri modelleri (dataclass'lar)
-  downloader.py    # yt-dlp ile transcript + video indirme
-  analyzer.py      # NLP timestamp seçimi + self-learning
-  extractor.py     # ffmpeg frame extraction
-  compiler.py      # Pillow storyboard grid
-  main.py          # CLI entry point
-
-.claude/skills/
-  watch-youtube/   # Claude Code skill talimatları
-  wiki-schema/     # Wiki yazma kuralları
-
-docs/wiki/
-  Index.md         # Ana harita
-  Videos.md        # Analiz edilmiş videoların kayıtları
-  *.md             # Konu bazlı wiki sayfaları
-
-data/
-  keyword_store.json   # Self-learning keyword veritabanı
-
-output/
-  VIDEO_ID/
-    storyboard_page_001.jpg
-    storyboard_page_002.jpg
-    ...
+```text
+watch-youtube/
+├── backend/                  # FastAPI Sunucu ve Servisleri
+│   ├── api/routes/           # REST ve WebSocket Uç Noktaları
+│   ├── core/                 # Config ve JobStore (In-memory state)
+│   └── services/             # İş Mantığı (Pipeline orchestrator)
+├── frontend/                 # Modern Meta UI (HTML/CSS/JS)
+│   ├── assets/               # CSS Tokens, JS (ES Modules)
+│   └── pages/                # Viewer, Process, History, Wiki Sayfaları
+├── watch_youtube/            # Çekirdek Python Kütüphanesi (Core logic)
+│   ├── analyzer.py           # spaCy NLP & Keyword logic
+│   ├── compiler.py           # Pillow Grid builder
+│   ├── downloader.py         # yt-dlp wrapper
+│   ├── extractor.py          # FFmpeg frame extraction
+│   └── wiki_generator.py     # Markdown dökümantasyon motoru
+├── setup_env.py              # Akıllı kurulum yardımcısı
+└── README.md
 ```
 
-## Nasıl Çalışıyor: Teknik Detay
+---
 
-### Akıllı Timestamp Seçimi
+## 🤝 Katkıda Bulunma (Contributing)
 
-İki kural birlikte çalışır:
+Bu proje geliştirilmeye çok açıktır! Pull Request göndermeden önce:
 
-**Kural A — Keyword eşleşmesi:** Transcript'te "look at this", "here we have", "diagram", "terminal" gibi konuşmacının ekrana işaret ettiği ifadeler tespit edilir. spaCy ile fiil + demonstrative kombinasyonları da yakalanır.
+1. Kodu `black` ve `isort` ile formatladığınızdan emin olun.
+2. Yeni özellikler için bir Issue açıp tartışın.
+3. SOLID prensiplerine sadık kalın.
 
-**Kural B — Sessizlik tespiti:** Konuşmacının 5+ saniye sessiz kaldığı anlar genellikle demo veya görsel içerik gösteriyor demektir.
+---
 
-### Self-Learning
+## 📄 Lisans
 
-Her video bittikten sonra TF-IDF çalışır: seçilen timestamp'lere yakın metinler ile arka plan metinleri karşılaştırılır, yüksek lift'li terimler `data/keyword_store.json`'a yazılır. Sistem izledikçe domain'e özgü vocabulary öğrenir.
-
-### Storyboard Grid
-
-Frame sayısına göre adaptif çözünürlük:
-
-| Frame | Grid | Hücre |
-|---|---|---|
-| 1 | 1×1 | 1280px |
-| 2 | 2×1 | 1024px |
-| 3–4 | 2×2 | 960px |
-| 5–6 | 3×2 | 800px |
-| 7–9 | 3×3 | 720px |
-| 10–12 | 4×3 | 640px |
-| 13+ | 3×3 sayfalar | 720px |
-
-12'den fazla frame otomatik olarak birden fazla JPEG sayfasına bölünür.
-
-## Bağımlılıklar
-
-| Paket | Amaç |
-|---|---|
-| `yt-dlp` | YouTube transcript + video indirme |
-| `Pillow` | Storyboard grid oluşturma |
-| `spaCy` | NLP timestamp analizi |
-| `scikit-learn` | TF-IDF self-learning |
-| `webvtt-py` | VTT altyazı parse |
-| `click` | CLI |
-| `groq` | Whisper API fallback |
-
-## Sorun Giderme
-
-| Hata | Çözüm |
-|---|---|
-| `ffmpeg not found` | `brew install ffmpeg` |
-| `No module named spacy` | `pip install spacy && python -m spacy download en_core_web_sm` |
-| `Cannot access video` | Video private, yaş kısıtlı veya bölge engelinde olabilir |
-| Transcript bulunamadı | `--groq-api-key` ile Whisper fallback kullan |
-| `Module import error` | Venv aktif mi kontrol et: `source .venv/bin/activate && pip install -e .` |
+Bu proje **MIT** lisansı ile lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakabilirsiniz.
