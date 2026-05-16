@@ -84,6 +84,7 @@ class PipelineService:
         from watch_youtube.analyzer import extract_smart_timestamps, update_keyword_store
         from watch_youtube.extractor import check_ffmpeg, get_video_duration, extract_frames
         from watch_youtube.compiler import compile_storyboards
+        from watch_youtube.wiki_generator import generate_wiki_page
 
         temp_dir = Path(tempfile.mkdtemp(prefix="wy_api_"))
 
@@ -92,7 +93,11 @@ class PipelineService:
             self._store.update_step(job_id, 1, JobStatus.RUNNING)
             self._store.update_status(job_id, JobStatus.RUNNING, progress_pct=5)
 
-            check_ffmpeg()
+            try:
+                check_ffmpeg()
+            except Exception:
+                raise RuntimeError("FFmpeg sistemde bulunamadı! Lütfen FFmpeg'i kurun ve PATH'e ekleyin.")
+
             result = download_video(
                 request.url,
                 temp_dir,
@@ -121,7 +126,7 @@ class PipelineService:
 
             self._store.update_step(
                 job_id, 2, JobStatus.DONE,
-                description=f"{len(timestamps)} akıllı timestamp (vs ~{fixed_count} sabit)",
+                description=f"{len(timestamps)} akıllı timestamp tespit edildi.",
                 elapsed_sec=time.time() - t2,
             )
             self._store.update_status(job_id, JobStatus.RUNNING, progress_pct=50)
@@ -134,12 +139,12 @@ class PipelineService:
 
             self._store.update_step(
                 job_id, 3, JobStatus.DONE,
-                description=f"{len(frames)} frame çıkarıldı",
+                description=f"{len(frames)} kilit kare çıkarıldı.",
                 elapsed_sec=time.time() - t3,
             )
             self._store.update_status(job_id, JobStatus.RUNNING, progress_pct=75)
 
-            # ---- Adım 4: Storyboard / Step 4: Compile ----
+            # ---- Adım 4: Storyboard + Wiki / Step 4: Compile ----
             self._store.update_step(job_id, 4, JobStatus.RUNNING)
             t4 = time.time()
 
@@ -147,6 +152,15 @@ class PipelineService:
             output_dir.mkdir(parents=True, exist_ok=True)
 
             boards = compile_storyboards(frames, output_dir, jpeg_quality=request.jpeg_quality)
+            
+            # Wiki sayfası üret / Generate Wiki
+            wiki_file = generate_wiki_page(
+                result.video_id, 
+                f"Video Analizi: {result.video_id}", 
+                result.transcript_entries, 
+                frames, 
+                self._settings.wiki_dir
+            )
 
             learned = 0
             if not request.no_learn and result.transcript_entries and timestamps:
@@ -154,7 +168,7 @@ class PipelineService:
 
             self._store.update_step(
                 job_id, 4, JobStatus.DONE,
-                description=f"{len(boards)} storyboard grid oluşturuldu",
+                description=f"Storyboard ve Wiki sayfası ({wiki_file.name}) oluşturuldu.",
                 elapsed_sec=time.time() - t4,
             )
             self._store.update_status(job_id, JobStatus.RUNNING, progress_pct=99)
@@ -169,7 +183,7 @@ class PipelineService:
                 frame_count=len(frames),
                 board_count=len(boards),
                 storyboard_paths=[str(b.relative_to(self._settings.output_dir)) for b in boards],
-                wiki_pages=[],
+                wiki_pages=[wiki_file.name],
                 elapsed_sec=time.time() - t_start,
                 learned_keywords=learned,
             )
