@@ -11,7 +11,7 @@
 // API modülünü yükle / Load API module
 // ============================================================
 // Not: <script type="module"> gerektirir / Requires <script type="module">
-import { analyzeVideo, connectJobWebSocket, checkBackendHealth } from '../assets/js/api.js';
+import { analyzeVideo, connectJobWebSocket, checkBackendHealth } from './api.js';
 
 // ============================================================
 // URL Parametrelerini Oku / Read URL Parameters
