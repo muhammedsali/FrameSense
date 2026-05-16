@@ -75,6 +75,11 @@ async def root() -> FileResponse:
     """Ana sayfayı döndürür / Returns index.html."""
     return FileResponse(frontend_path / "index.html")
 
+@app.get("/index.html", include_in_schema=False)
+async def serve_index() -> FileResponse:
+    """Navbar tıklamalarındaki index.html yolları için / For navbar clicks."""
+    return FileResponse(frontend_path / "index.html")
+
 # Frontend klasörünü statik olarak sun / Mount static files
 app.mount("/assets", StaticFiles(directory=frontend_path / "assets"), name="assets")
 app.mount("/pages", StaticFiles(directory=frontend_path / "pages"), name="pages")
